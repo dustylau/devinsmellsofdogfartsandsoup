@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devin Smells Of Dog Farts and Soup</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --fart-green: #7a9f35;
+            --fart-green-dark: #4a6b1a;
+            --soup-brown: #8b5e3c;
+            --soup-brown-light: #c49a6c;
+            --puke-yellow: #d4b341;
+            --stink-purple: #6b3fa0;
+            --bg-dark: #1a1209;
+            --bg-card: #2a1f10;
+            --text-light: #f5e6d0;
+            --text-glow: #d4ff70;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            perspective: 10px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ===== FLOATING EMOJIS ===== */
+        .emoji-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: emojiFloat linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes emojiFloat {
+            0% {
+                transform: translateY(110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            5% {
+                opacity: 0.7;
+            }
+
+            90% {
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: translateY(-10vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Generate staggered emojis via nth-child */
+        .floating-emoji:nth-child(1) {
+            left: 5%;
+            animation-duration: 14s;
+            animation-delay: 0s;
+            font-size: 1.8rem;
+        }
+
+        .floating-emoji:nth-child(2) {
+            left: 15%;
+            animation-duration: 18s;
+            animation-delay: 2s;
+            font-size: 2.5rem;
+        }
+
+        .floating-emoji:nth-child(3) {
+            left: 25%;
+            animation-duration: 12s;
+            animation-delay: 4s;
+            font-size: 1.5rem;
+        }
+
+        .floating-emoji:nth-child(4) {
+            left: 35%;
+            animation-duration: 20s;
+            animation-delay: 1s;
+            font-size: 3rem;
+        }
+
+        .floating-emoji:nth-child(5) {
+            left: 45%;
+            animation-duration: 15s;
+            animation-delay: 6s;
+            font-size: 2rem;
+        }
+
+        .floating-emoji:nth-child(6) {
+            left: 55%;
+            animation-duration: 17s;
+            animation-delay: 3s;
+            font-size: 2.2rem;
+        }
+
+        .floating-emoji:nth-child(7) {
+            left: 65%;
+            animation-duration: 13s;
+            animation-delay: 8s;
+            font-size: 1.6rem;
+        }
+
+        .floating-emoji:nth-child(8) {
+            left: 75%;
+            animation-duration: 19s;
+            animation-delay: 5s;
+            font-size: 2.8rem;
+        }
+
+        .floating-emoji:nth-child(9) {
+            left: 85%;
+            animation-duration: 16s;
+            animation-delay: 7s;
+            font-size: 1.9rem;
+        }
+
+        .floating-emoji:nth-child(10) {
+            left: 92%;
+            animation-duration: 14s;
+            animation-delay: 9s;
+            font-size: 2.1rem;
+        }
+
+        .floating-emoji:nth-child(11) {
+            left: 10%;
+            animation-duration: 22s;
+            animation-delay: 11s;
+            font-size: 2.4rem;
+        }
+
+        .floating-emoji:nth-child(12) {
+            left: 50%;
+            animation-duration: 16s;
+            animation-delay: 13s;
+            font-size: 1.7rem;
+        }
+
+        .floating-emoji:nth-child(13) {
+            left: 30%;
+            animation-duration: 21s;
+            animation-delay: 3s;
+            font-size: 3.2rem;
+        }
+
+        .floating-emoji:nth-child(14) {
+            left: 70%;
+            animation-duration: 18s;
+            animation-delay: 10s;
+            font-size: 2rem;
+        }
+
+        .floating-emoji:nth-child(15) {
+            left: 40%;
+            animation-duration: 15s;
+            animation-delay: 15s;
+            font-size: 1.4rem;
+        }
+
+        /* ===== SCROLLING BANNERS ===== */
+        .banner-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .scroll-banner {
+            position: absolute;
+            white-space: nowrap;
+            font-weight: 900;
+            text-transform: uppercase;
+            opacity: 0.08;
+            letter-spacing: 0.05em;
+        }
+
+        .scroll-banner:nth-child(1) {
+            top: 12%;
+            font-size: 3vw;
+            color: var(--fart-green);
+            animation: bannerScroll1 25s linear infinite;
+        }
+
+        .scroll-banner:nth-child(2) {
+            top: 38%;
+            font-size: 4vw;
+            color: var(--soup-brown-light);
+            animation: bannerScroll2 30s linear infinite;
+        }
+
+        .scroll-banner:nth-child(3) {
+            top: 62%;
+            font-size: 2.5vw;
+            color: var(--puke-yellow);
+            animation: bannerScroll1 20s linear infinite;
+        }
+
+        .scroll-banner:nth-child(4) {
+            top: 85%;
+            font-size: 3.5vw;
+            color: var(--stink-purple);
+            animation: bannerScroll2 35s linear infinite;
+        }
+
+        @keyframes bannerScroll1 {
+            0% {
+                transform: translateX(100vw);
+            }
+
+            100% {
+                transform: translateX(-200%);
+            }
+        }
+
+        @keyframes bannerScroll2 {
+            0% {
+                transform: translateX(-200%);
+            }
+
+            100% {
+                transform: translateX(100vw);
+            }
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(ellipse at center, rgba(138, 94, 60, 0.3) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 8vw, 5rem);
+            line-height: 1.1;
+            text-shadow:
+                0 0 20px rgba(122, 159, 53, 0.6),
+                0 0 60px rgba(122, 159, 53, 0.3),
+                3px 3px 0 var(--soup-brown);
+            color: var(--text-glow);
+            animation: titlePulse 3s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        @keyframes titlePulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                text-shadow: 0 0 20px rgba(122, 159, 53, 0.6), 0 0 60px rgba(122, 159, 53, 0.3), 3px 3px 0 var(--soup-brown);
+            }
+
+            50% {
+                transform: scale(1.02);
+                text-shadow: 0 0 40px rgba(122, 159, 53, 0.8), 0 0 80px rgba(122, 159, 53, 0.5), 3px 3px 0 var(--soup-brown);
+            }
+        }
+
+        .hero .tagline {
+            font-size: clamp(1rem, 3vw, 1.8rem);
+            color: var(--soup-brown-light);
+            font-style: italic;
+            min-height: 2.5em;
+        }
+
+        .hero .tagline span {
+            display: inline-block;
+            animation: taglineFade 12s ease-in-out infinite;
+        }
+
+        @keyframes taglineFade {
+
+            0%,
+            30% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            33%,
+            36% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            39%,
+            63% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            66%,
+            69% {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            72%,
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero .down-arrow {
+            margin-top: 3rem;
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(15px);
+            }
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            color: var(--text-glow);
+            text-shadow: 0 0 15px rgba(122, 159, 53, 0.5);
+            margin-bottom: 2rem;
+            padding-top: 1rem;
+        }
+
+        /* ===== COLLAGE ===== */
+        .collage-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+        }
+
+        .collage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .collage-item {
+            background: var(--bg-card);
+            border: 4px solid var(--soup-brown);
+            padding: 12px 12px 40px;
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: visible;
+        }
+
+        .collage-item:nth-child(odd) {
+            transform: rotate(-3deg);
+        }
+
+        .collage-item:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .collage-item:nth-child(3n) {
+            transform: rotate(-5deg);
+        }
+
+        .collage-item:nth-child(4n) {
+            transform: rotate(4deg);
+        }
+
+        .collage-item:nth-child(5n) {
+            transform: rotate(-1deg);
+        }
+
+        .collage-item:hover {
+            transform: rotate(0deg) scale(1.08) !important;
+            box-shadow: 0 0 30px rgba(122, 159, 53, 0.4), 8px 8px 30px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+        }
+
+        .collage-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .collage-caption {
+            position: absolute;
+            bottom: 8px;
+            left: 12px;
+            right: 12px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--soup-brown-light);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Fart burst on hover */
+        .collage-item::after {
+            content: '💨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            transform: scale(0.5);
+            pointer-events: none;
+        }
+
+        .collage-item:hover::after {
+            opacity: 1;
+            transform: scale(1.3);
+        }
+
+        /* ===== SMELL RATING ===== */
+        .smell-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .smell-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 3px solid var(--fart-green-dark);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 0 40px rgba(122, 159, 53, 0.15);
+        }
+
+        .smell-btn {
+            background: linear-gradient(135deg, var(--fart-green), var(--fart-green-dark));
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.3rem;
+            font-family: inherit;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(122, 159, 53, 0.3);
+            letter-spacing: 0.05em;
+        }
+
+        .smell-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(122, 159, 53, 0.5);
+        }
+
+        .smell-btn:active {
+            transform: scale(0.97);
+        }
+
+        .smell-result {
+            margin-top: 2rem;
+            font-size: 1.4rem;
+            min-height: 3em;
+            line-height: 1.6;
+        }
+
+        .smell-result .fart-pct {
+            color: var(--fart-green);
+            font-weight: 900;
+        }
+
+        .smell-result .soup-pct {
+            color: var(--soup-brown-light);
+            font-weight: 900;
+        }
+
+        .smell-bar-container {
+            margin-top: 1rem;
+            height: 30px;
+            background: #111;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 2px solid var(--soup-brown);
+        }
+
+        .smell-bar-fart {
+            height: 100%;
+            background: linear-gradient(90deg, var(--fart-green-dark), var(--fart-green));
+            border-radius: 15px 0 0 15px;
+            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ===== SOUNDBOARD ===== */
+        .soundboard-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .soundboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .fart-btn {
+            background: linear-gradient(180deg, var(--soup-brown), #5a3820);
+            color: var(--text-light);
+            border: 3px solid var(--soup-brown-light);
+            padding: 1.5rem 1rem;
+            font-size: 1rem;
+            font-family: inherit;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fart-btn:hover {
+            transform: scale(1.06);
+            box-shadow: 0 6px 25px rgba(139, 94, 60, 0.5);
+            border-color: var(--fart-green);
+        }
+
+        .fart-btn:active {
+            transform: scale(0.95);
+        }
+
+        .fart-btn .btn-emoji {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Ripple effect */
+        .fart-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(122, 159, 53, 0.4);
+            transform: scale(0);
+            animation: rippleAnim 0.6s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Emoji explosion */
+        .emoji-burst {
+            position: fixed;
+            font-size: 2rem;
+            pointer-events: none;
+            z-index: 9999;
+            animation: emojiBurst 1s ease-out forwards;
+        }
+
+        @keyframes emojiBurst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(360deg);
+            }
+        }
+
+        /* ===== WALL OF SHAME (extra scroll section) ===== */
+        .shame-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .shame-facts {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .shame-fact {
+            background: var(--bg-card);
+            border-left: 5px solid var(--puke-yellow);
+            padding: 1.5rem 2rem;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.5;
+            border-radius: 0 12px 12px 0;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .shame-fact.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--soup-brown);
+            color: var(--soup-brown-light);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .site-footer .disclaimer {
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        /* ===== PARALLAX LAYERS ===== */
+        .parallax-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(122, 159, 53, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(139, 94, 60, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(107, 63, 160, 0.05) 0%, transparent 60%);
+            transform: translateZ(-2px) scale(1.2);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .collage-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .collage-item {
+                padding: 8px 8px 30px;
+            }
+
+            .soundboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .scroll-banner {
+                font-size: 5vw !important;
+            }
+
+            .shame-fact {
+                padding: 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .collage-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+
+            .soundboard-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero h1 {
+                font-size: clamp(1.5rem, 10vw, 3rem);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Parallax background -->
+    <div class="parallax-bg"></div>
+
+    <!-- Floating emojis -->
+    <div class="emoji-layer">
+        <div class="floating-emoji">🐕</div>
+        <div class="floating-emoji">💨</div>
+        <div class="floating-emoji">🍲</div>
+        <div class="floating-emoji">🥣</div>
+        <div class="floating-emoji">💩</div>
+        <div class="floating-emoji">🤢</div>
+        <div class="floating-emoji">🐕</div>
+        <div class="floating-emoji">💨</div>
+        <div class="floating-emoji">🍜</div>
+        <div class="floating-emoji">🤮</div>
+        <div class="floating-emoji">🐶</div>
+        <div class="floating-emoji">💨</div>
+        <div class="floating-emoji">🥫</div>
+        <div class="floating-emoji">🐕</div>
+        <div class="floating-emoji">💨</div>
+    </div>
+
+    <!-- Scrolling text banners -->
+    <div class="banner-layer">
+        <div class="scroll-banner">WHY DOES DEVIN SMELL LIKE DOG FARTS? &bull; WHY DOES DEVIN SMELL LIKE DOG FARTS?
+            &bull; WHY DOES DEVIN SMELL LIKE DOG FARTS? &bull;</div>
+        <div class="scroll-banner">IS THAT SOUP OR IS THAT DEVIN? &bull; IS THAT SOUP OR IS THAT DEVIN? &bull; IS THAT
+            SOUP OR IS THAT DEVIN? &bull;</div>
+        <div class="scroll-banner">THE STENCH IS UNDENIABLE &bull; SCIENCE HAS CONFIRMED IT &bull; THE DOG AGREES &bull;
+            THE STENCH IS UNDENIABLE &bull;</div>
+        <div class="scroll-banner">SMELLS LIKE DOG FARTS AND SOUP &bull; SMELLS LIKE DOG FARTS AND SOUP &bull; SMELLS
+            LIKE DOG FARTS AND SOUP &bull;</div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="top">
+        <h1>DEVIN SMELLS OF<br>DOG FARTS<br>&amp; SOUP</h1>
+        <div class="tagline" id="tagline"><span>A fact. Not an opinion.</span></div>
+        <a href="#evidence" class="down-arrow" aria-label="Scroll to evidence">👇</a>
+    </section>
+
+    <!-- ===== COLLAGE ===== -->
+    <section class="collage-section" id="evidence">
+        <h2 class="section-title">📸 THE EVIDENCE 📸</h2>
+        <div class="collage-grid">
+            {{IMAGES}}
+        </div>
+    </section>
+
+    <!-- ===== SMELL RATING ===== -->
+    <section class="smell-section" id="smell-rating">
+        <h2 class="section-title">🧪 TODAY'S SMELL RATING 🧪</h2>
+        <div class="smell-card">
+            <p style="margin-bottom:1.5rem; opacity:0.8;">Our patented Devin Smell Analysis Engine&trade; has
+                determined:</p>
+            <button class="smell-btn" id="smellBtn" type="button">🐕 ANALYZE THE STENCH 💨</button>
+            <div class="smell-result" id="smellResult"></div>
+            <div class="smell-bar-container" id="smellBarContainer" style="display:none;">
+                <div class="smell-bar-fart" id="smellBarFart" style="width:0%"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SOUNDBOARD ===== -->
+    <section class="soundboard-section" id="soundboard">
+        <h2 class="section-title">🔊 THE FART SOUNDBOARD 🔊</h2>
+        <div class="soundboard-grid">
+            {{FART_SOUNDS}}
+        </div>
+    </section>
+
+    <!-- ===== WALL OF SHAME ===== -->
+    <section class="shame-section" id="wall-of-shame">
+        <h2 class="section-title">📜 WALL OF SHAME 📜</h2>
+        <div class="shame-facts">
+            <div class="shame-fact">"I once thought there was a gas leak. Turns out it was just Devin entering the
+                room." — <em>Mom</em></div>
+            <div class="shame-fact">"The family dog refuses to sit next to him. Even the dog has standards." —
+                <em>Dad</em></div>
+            <div class="shame-fact">"He walked into the kitchen and I thought the soup was burning. There was no soup."
+                — <em>Eyewitness</em></div>
+            <div class="shame-fact">"Scientists wanted to study his aroma but their instruments couldn't handle it." —
+                <em>Probably Real Scientists</em></div>
+            <div class="shame-fact">"He went to a dog park and three dogs tried to bury him." — <em>Reliable Source</em>
+            </div>
+            <div class="shame-fact">"Every restaurant he enters, the chef comes out to check if the soup has gone bad."
+                — <em>Multiple Witnesses</em></div>
+            <div class="shame-fact">"His cologne is called 'Eau de Kibble &amp; Minestrone' and it's all natural." —
+                <em>The Nose Knows</em></div>
+            <div class="shame-fact">"I bought him air freshener for Christmas. He ate it. Still smells the same." —
+                <em>His Brother</em></div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <p>This website is a scientific document. All claims have been peer-reviewed by the family dog. 🐕</p>
+        <p class="disclaimer">No Devins were harmed in the making of this website. Emotionally, maybe. Physically, no.
+        </p>
+        <p style="margin-top:1rem;opacity:0.4;">Built with ❤️ and 💨</p>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        (function () {
+            'use strict';
+
+            /* ----- Tagline Rotation ----- */
+            var taglines = [
+                "A fact. Not an opinion.",
+                "Science has confirmed it.",
+                "Even the dog agrees.",
+                "Peer-reviewed and published.",
+                "The soup is NOT on the stove.",
+                "Eau de Canine Flatulence &amp; Minestrone.",
+                "His superpower, unfortunately.",
+                "You can smell this website.",
+                "Devin: 1 part human, 2 parts stink.",
+                "Warning: may cause involuntary gagging."
+            ];
+            var taglineEl = document.getElementById('tagline');
+            var taglineIdx = 0;
+
+            setInterval(function () {
+                taglineIdx = (taglineIdx + 1) % taglines.length;
+                taglineEl.style.opacity = '0';
+                taglineEl.style.transform = 'translateY(-10px)';
+                setTimeout(function () {
+                    taglineEl.innerHTML = '<span>' + taglines[taglineIdx] + '</span>';
+                    taglineEl.style.opacity = '1';
+                    taglineEl.style.transform = 'translateY(0)';
+                }, 400);
+            }, 4000);
+            taglineEl.style.transition = 'opacity 0.4s, transform 0.4s';
+
+            /* ----- Smell Rating Generator ----- */
+            var soups = [
+                "minestrone", "clam chowder", "tomato bisque", "ramen broth",
+                "split pea", "French onion", "chicken noodle", "gazpacho",
+                "cream of mushroom", "won ton broth", "borscht", "pho"
+            ];
+            var descriptors = [
+                "dog fart", "wet dog", "kennel floor", "old tennis ball",
+                "dog breath", "puppy poot", "hound gas", "canine whoopee"
+            ];
+
+            var smellBtn = document.getElementById('smellBtn');
+            var smellResult = document.getElementById('smellResult');
+            var smellBarContainer = document.getElementById('smellBarContainer');
+            var smellBarFart = document.getElementById('smellBarFart');
+
+            smellBtn.addEventListener('click', function () {
+                var fartPct = Math.floor(Math.random() * 81) + 15; // 15-95
+                var soupPct = 100 - fartPct;
+                var soup = soups[Math.floor(Math.random() * soups.length)];
+                var desc = descriptors[Math.floor(Math.random() * descriptors.length)];
+
+                smellResult.innerHTML =
+                    'Today Devin smells<br>' +
+                    '<span class="fart-pct">' + fartPct + '% ' + desc + '</span>' +
+                    '<br>&amp;<br>' +
+                    '<span class="soup-pct">' + soupPct + '% ' + soup + '</span>';
+
+                smellBarContainer.style.display = 'block';
+                smellBarFart.style.width = '0%';
+                requestAnimationFrame(function () {
+                    requestAnimationFrame(function () {
+                        smellBarFart.style.width = fartPct + '%';
+                        smellBarFart.textContent = '💨 ' + fartPct + '%';
+                    });
+                });
+            });
+
+            /* ----- Fart Soundboard ----- */
+            var fartButtons = document.querySelectorAll('.fart-btn');
+            fartButtons.forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    // Ripple
+                    var rect = btn.getBoundingClientRect();
+                    var ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+                    ripple.style.left = (e.clientX - rect.left - rect.width / 2) + 'px';
+                    ripple.style.top = (e.clientY - rect.top - rect.height / 2) + 'px';
+                    btn.appendChild(ripple);
+                    setTimeout(function () { ripple.remove(); }, 600);
+
+                    // Emoji burst
+                    var burstEmojis = ['💨', '🐕', '🍲', '💩', '🤢', '🥣'];
+                    for (var i = 0; i < 6; i++) {
+                        var em = document.createElement('div');
+                        em.className = 'emoji-burst';
+                        em.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+                        em.style.left = e.clientX + 'px';
+                        em.style.top = e.clientY + 'px';
+                        em.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
+                        em.style.setProperty('--ty', (Math.random() * -200 - 50) + 'px');
+                        document.body.appendChild(em);
+                        setTimeout(function (el) { el.remove(); }, 1000, em);
+                    }
+
+                    // Play sound
+                    var audioSrc = btn.getAttribute('data-sound');
+                    if (audioSrc) {
+                        try {
+                            var audio = new Audio(audioSrc);
+                            audio.volume = 0.6;
+                            audio.play();
+                        } catch (err) {
+                            /* silent fail */
+                        }
+                    }
+                });
+            });
+
+            /* ----- Scroll-reveal for Wall of Shame ----- */
+            var facts = document.querySelectorAll('.shame-fact');
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+            facts.forEach(function (f) { observer.observe(f); });
+
+            /* ----- Parallax on scroll (subtle) ----- */
+            var parallaxBg = document.querySelector('.parallax-bg');
+            window.addEventListener('scroll', function () {
+                var scrollY = window.pageYOffset;
+                parallaxBg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
+            }, { passive: true });
+
+        })();
+    </script>
+</body>
+
+</html>

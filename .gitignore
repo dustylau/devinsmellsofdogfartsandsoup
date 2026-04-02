@@ -1,0 +1,11 @@
+# Build output
+index.html
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
