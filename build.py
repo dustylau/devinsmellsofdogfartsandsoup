@@ -11,6 +11,7 @@ Usage:
 
 import base64
 import io
+import json
 import math
 import mimetypes
 import os
@@ -124,17 +125,18 @@ def get_mime_type(filepath: Path) -> str:
     return mime_map.get(ext, "application/octet-stream")
 
 
-def generate_image_html(images: list[Path]) -> str:
-    """Generate collage HTML for all images."""
-    if not images:
-        return (
-            '    <div class="collage-item" style="transform:rotate(0deg);grid-column:1/-1;">'
-            '<p style="padding:3rem;text-align:center;font-size:1.5rem;">'
-            "🐕 Add photos of Devin to the <code>pics/</code> folder and rebuild! 💨"
-            "</p></div>"
-        )
+def build_image_manifest(images: list[Path]) -> str:
+    """Build a JSON payload so the template can render multiple layouts client-side."""
+    manifest = []
+    roast_lines = [
+        "Documented odor event",
+        "Flagged by the family nostrils",
+        "Soup-adjacent behavior observed",
+        "Public nuisance energy",
+        "Witnesses advised to crack a window",
+        "Confirmed by independent sniffers",
+    ]
 
-    html_parts = []
     for i, img_path in enumerate(images):
         mime = get_mime_type(img_path)
         b64 = encode_file_b64(img_path)
@@ -144,14 +146,18 @@ def generate_image_html(images: list[Path]) -> str:
         if "{}" in caption:
             caption = caption.format(i + 1)
 
-        html_parts.append(
-            f'    <div class="collage-item">'
-            f'<img src="{data_uri}" alt="Devin photo {i + 1}" loading="lazy">'
-            f'<div class="collage-caption">{caption}</div>'
-            f"</div>"
+        manifest.append(
+            {
+                "src": data_uri,
+                "alt": f"Devin photo {i + 1}",
+                "caption": caption,
+                "case_number": f"CASE-{i + 1:02d}",
+                "headline": roast_lines[i % len(roast_lines)],
+                "odor_rating": 72 + ((i * 9) % 28),
+            }
         )
 
-    return "\n".join(html_parts)
+    return json.dumps(manifest, separators=(",", ":"))
 
 
 def generate_fart_wav(
@@ -265,9 +271,9 @@ def build():
         size_kb = img.stat().st_size / 1024
         print(f"   - {img.name} ({size_kb:.0f} KB)")
 
-    # Generate image HTML
+    # Generate image manifest
     print("\n🖼️  Encoding images to base64...")
-    images_html = generate_image_html(images)
+    image_manifest = build_image_manifest(images)
 
     # Generate fart sounds
     print(f"\n💨 Generating {len(FART_SOUNDS)} fart sounds...")
@@ -280,7 +286,7 @@ def build():
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
     # Inject content
-    output = template.replace("{{IMAGES}}", images_html)
+    output = template.replace("{{IMAGE_DATA}}", image_manifest)
     output = output.replace("{{FART_SOUNDS}}", soundboard_html)
     output = output.replace("{{IMAGE_COUNT}}", str(len(images)))
 

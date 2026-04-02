@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Devin Smells Of Dog Farts and Soup</title>
     <style>
-        /* ===== RESET & BASE ===== */
         *,
         *::before,
         *::after {
@@ -16,16 +15,19 @@
         }
 
         :root {
-            --fart-green: #7a9f35;
-            --fart-green-dark: #4a6b1a;
-            --soup-brown: #8b5e3c;
-            --soup-brown-light: #c49a6c;
-            --puke-yellow: #d4b341;
-            --stink-purple: #6b3fa0;
-            --bg-dark: #1a1209;
-            --bg-card: #2a1f10;
-            --text-light: #f5e6d0;
-            --text-glow: #d4ff70;
+            --acid-lime: #d9ff52;
+            --swamp: #769723;
+            --swamp-dark: #49621a;
+            --broth: #95551e;
+            --broth-light: #d8a86d;
+            --hazard: #ffb61d;
+            --bruise: #613080;
+            --ink: #140d07;
+            --panel: #24170d;
+            --panel-2: #341f0f;
+            --paper: #f2d7af;
+            --text: #f8ead1;
+            --text-dim: rgba(248, 234, 209, 0.74);
         }
 
         html {
@@ -33,12 +35,99 @@
         }
 
         body {
-            background: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
-            overflow-x: hidden;
             min-height: 100vh;
-            perspective: 10px;
+            overflow-x: hidden;
+            color: var(--text);
+            font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(217, 255, 82, 0.14), transparent 26%),
+                radial-gradient(circle at 82% 18%, rgba(97, 48, 128, 0.2), transparent 28%),
+                radial-gradient(circle at 50% 80%, rgba(149, 85, 30, 0.18), transparent 32%),
+                linear-gradient(180deg, #120b06 0%, #1a1109 38%, #0d0804 100%);
+            position: relative;
+        }
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -15%;
+            pointer-events: none;
+        }
+
+        body::before {
+            background:
+                radial-gradient(circle at 20% 30%, rgba(217, 255, 82, 0.12), transparent 22%),
+                radial-gradient(circle at 70% 25%, rgba(255, 182, 29, 0.12), transparent 18%),
+                radial-gradient(circle at 55% 75%, rgba(97, 48, 128, 0.1), transparent 20%);
+            filter: blur(40px);
+            animation: hazeDrift 18s linear infinite;
+            z-index: -2;
+        }
+
+        body::after {
+            background-image:
+                linear-gradient(135deg, transparent 0 44%, rgba(255, 255, 255, 0.035) 45%, transparent 46%),
+                linear-gradient(45deg, transparent 0 47%, rgba(255, 255, 255, 0.02) 48%, transparent 49%);
+            background-size: 220px 220px;
+            opacity: 0.85;
+            animation: sheenShift 16s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes hazeDrift {
+            0% {
+                transform: translate3d(-2%, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(3%, -2%, 0) scale(1.08);
+            }
+
+            100% {
+                transform: translate3d(-2%, 0, 0) scale(1);
+            }
+        }
+
+        @keyframes sheenShift {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-120px);
+            }
+        }
+
+        h1,
+        h2,
+        h3,
+        .hero-kicker,
+        .warning-tape-track,
+        .case-label,
+        .lineup-number,
+        .incident-label,
+        .smell-btn,
+        .fart-btn {
+            font-family: Impact, Haettenschweiler, "Arial Black", sans-serif;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .page-shell {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .parallax-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background:
+                radial-gradient(circle at 12% 80%, rgba(121, 151, 35, 0.08), transparent 28%),
+                radial-gradient(circle at 85% 65%, rgba(149, 85, 30, 0.08), transparent 22%),
+                radial-gradient(circle at 52% 28%, rgba(97, 48, 128, 0.08), transparent 25%);
+            transform: translateY(0);
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -49,318 +138,414 @@
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
             }
         }
 
-        /* ===== FLOATING EMOJIS ===== */
-        .emoji-layer {
+        .emoji-layer,
+        .banner-layer {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            inset: 0;
             pointer-events: none;
-            z-index: 0;
             overflow: hidden;
+        }
+
+        .emoji-layer {
+            z-index: 0;
+        }
+
+        .banner-layer {
+            z-index: 1;
         }
 
         .floating-emoji {
             position: absolute;
+            bottom: -12vh;
             font-size: 2rem;
             opacity: 0;
             animation: emojiFloat linear infinite;
-            pointer-events: none;
+            filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.35));
         }
 
         @keyframes emojiFloat {
             0% {
-                transform: translateY(110vh) rotate(0deg);
+                transform: translate3d(0, 0, 0) rotate(0deg) scale(0.8);
                 opacity: 0;
             }
 
-            5% {
-                opacity: 0.7;
+            8% {
+                opacity: 0.72;
             }
 
-            90% {
-                opacity: 0.7;
+            45% {
+                transform: translate3d(20px, -50vh, 0) rotate(180deg) scale(1.05);
             }
 
             100% {
-                transform: translateY(-10vh) rotate(720deg);
+                transform: translate3d(-40px, -120vh, 0) rotate(540deg) scale(0.7);
                 opacity: 0;
             }
         }
 
-        /* Generate staggered emojis via nth-child */
         .floating-emoji:nth-child(1) {
-            left: 5%;
-            animation-duration: 14s;
+            left: 4%;
+            animation-duration: 13s;
             animation-delay: 0s;
-            font-size: 1.8rem;
+            font-size: 1.6rem;
         }
 
         .floating-emoji:nth-child(2) {
-            left: 15%;
-            animation-duration: 18s;
-            animation-delay: 2s;
-            font-size: 2.5rem;
+            left: 10%;
+            animation-duration: 17s;
+            animation-delay: 1.5s;
+            font-size: 2.4rem;
         }
 
         .floating-emoji:nth-child(3) {
-            left: 25%;
-            animation-duration: 12s;
-            animation-delay: 4s;
-            font-size: 1.5rem;
+            left: 18%;
+            animation-duration: 15s;
+            animation-delay: 3s;
         }
 
         .floating-emoji:nth-child(4) {
-            left: 35%;
-            animation-duration: 20s;
+            left: 27%;
+            animation-duration: 21s;
             animation-delay: 1s;
             font-size: 3rem;
         }
 
         .floating-emoji:nth-child(5) {
-            left: 45%;
-            animation-duration: 15s;
-            animation-delay: 6s;
-            font-size: 2rem;
+            left: 38%;
+            animation-duration: 12s;
+            animation-delay: 4.5s;
         }
 
         .floating-emoji:nth-child(6) {
-            left: 55%;
-            animation-duration: 17s;
-            animation-delay: 3s;
+            left: 47%;
+            animation-duration: 18s;
+            animation-delay: 2s;
             font-size: 2.2rem;
         }
 
         .floating-emoji:nth-child(7) {
-            left: 65%;
-            animation-duration: 13s;
-            animation-delay: 8s;
-            font-size: 1.6rem;
+            left: 57%;
+            animation-duration: 14s;
+            animation-delay: 6.5s;
+            font-size: 1.8rem;
         }
 
         .floating-emoji:nth-child(8) {
-            left: 75%;
+            left: 64%;
             animation-duration: 19s;
             animation-delay: 5s;
             font-size: 2.8rem;
         }
 
         .floating-emoji:nth-child(9) {
-            left: 85%;
+            left: 72%;
             animation-duration: 16s;
-            animation-delay: 7s;
-            font-size: 1.9rem;
+            animation-delay: 3.5s;
+            font-size: 2rem;
         }
 
         .floating-emoji:nth-child(10) {
-            left: 92%;
-            animation-duration: 14s;
-            animation-delay: 9s;
-            font-size: 2.1rem;
+            left: 82%;
+            animation-duration: 20s;
+            animation-delay: 7s;
+            font-size: 2.6rem;
         }
 
         .floating-emoji:nth-child(11) {
-            left: 10%;
-            animation-duration: 22s;
-            animation-delay: 11s;
-            font-size: 2.4rem;
+            left: 91%;
+            animation-duration: 13s;
+            animation-delay: 8s;
+            font-size: 1.6rem;
         }
 
         .floating-emoji:nth-child(12) {
-            left: 50%;
-            animation-duration: 16s;
-            animation-delay: 13s;
-            font-size: 1.7rem;
+            left: 22%;
+            animation-duration: 23s;
+            animation-delay: 9s;
+            font-size: 1.9rem;
         }
 
         .floating-emoji:nth-child(13) {
-            left: 30%;
-            animation-duration: 21s;
-            animation-delay: 3s;
-            font-size: 3.2rem;
+            left: 52%;
+            animation-duration: 18s;
+            animation-delay: 10s;
+            font-size: 2.9rem;
         }
 
         .floating-emoji:nth-child(14) {
-            left: 70%;
-            animation-duration: 18s;
-            animation-delay: 10s;
+            left: 77%;
+            animation-duration: 15s;
+            animation-delay: 11.5s;
             font-size: 2rem;
         }
 
         .floating-emoji:nth-child(15) {
-            left: 40%;
-            animation-duration: 15s;
-            animation-delay: 15s;
-            font-size: 1.4rem;
+            left: 33%;
+            animation-duration: 22s;
+            animation-delay: 12.5s;
+            font-size: 2.3rem;
         }
 
-        /* ===== SCROLLING BANNERS ===== */
-        .banner-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
+        .floating-emoji:nth-child(16) {
+            left: 7%;
+            animation-duration: 19s;
+            animation-delay: 14s;
+            font-size: 2rem;
+        }
+
+        .floating-emoji:nth-child(17) {
+            left: 67%;
+            animation-duration: 17s;
+            animation-delay: 15s;
+            font-size: 1.7rem;
+        }
+
+        .floating-emoji:nth-child(18) {
+            left: 87%;
+            animation-duration: 21s;
+            animation-delay: 16s;
+            font-size: 2.5rem;
         }
 
         .scroll-banner {
             position: absolute;
             white-space: nowrap;
             font-weight: 900;
-            text-transform: uppercase;
-            opacity: 0.08;
-            letter-spacing: 0.05em;
+            opacity: 0.13;
+            letter-spacing: 0.08em;
+            transform: rotate(-4deg);
+            text-shadow: 0 0 24px rgba(0, 0, 0, 0.35);
         }
 
         .scroll-banner:nth-child(1) {
             top: 12%;
-            font-size: 3vw;
-            color: var(--fart-green);
-            animation: bannerScroll1 25s linear infinite;
+            font-size: 3.2vw;
+            color: var(--acid-lime);
+            animation: bannerScrollRight 26s linear infinite;
         }
 
         .scroll-banner:nth-child(2) {
-            top: 38%;
+            top: 36%;
             font-size: 4vw;
-            color: var(--soup-brown-light);
-            animation: bannerScroll2 30s linear infinite;
+            color: var(--broth-light);
+            animation: bannerScrollLeft 30s linear infinite;
         }
 
         .scroll-banner:nth-child(3) {
-            top: 62%;
-            font-size: 2.5vw;
-            color: var(--puke-yellow);
-            animation: bannerScroll1 20s linear infinite;
+            top: 60%;
+            font-size: 2.8vw;
+            color: var(--hazard);
+            animation: bannerScrollRight 20s linear infinite;
         }
 
         .scroll-banner:nth-child(4) {
-            top: 85%;
+            top: 84%;
             font-size: 3.5vw;
-            color: var(--stink-purple);
-            animation: bannerScroll2 35s linear infinite;
+            color: #d28cff;
+            animation: bannerScrollLeft 34s linear infinite;
         }
 
-        @keyframes bannerScroll1 {
+        @keyframes bannerScrollRight {
             0% {
-                transform: translateX(100vw);
+                transform: translateX(110vw) rotate(-4deg);
             }
 
             100% {
-                transform: translateX(-200%);
+                transform: translateX(-210%) rotate(-4deg);
             }
         }
 
-        @keyframes bannerScroll2 {
+        @keyframes bannerScrollLeft {
             0% {
-                transform: translateX(-200%);
+                transform: translateX(-210%) rotate(3deg);
             }
 
             100% {
-                transform: translateX(100vw);
+                transform: translateX(110vw) rotate(3deg);
             }
         }
 
-        /* ===== HERO ===== */
-        .hero {
+        .hero,
+        .collage-section,
+        .lineup-section,
+        .incident-section,
+        .smell-section,
+        .soundboard-section,
+        .shame-section,
+        .site-footer {
             position: relative;
             z-index: 2;
+        }
+
+        .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding: 2rem;
-            background: radial-gradient(ellipse at center, rgba(138, 94, 60, 0.3) 0%, transparent 70%);
+            padding: 3rem 1.5rem 4rem;
+            overflow: hidden;
+        }
+
+        .hero::before,
+        .hero::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(8px);
+        }
+
+        .hero::before {
+            width: 340px;
+            height: 340px;
+            top: 14%;
+            left: -4%;
+            background: radial-gradient(circle, rgba(217, 255, 82, 0.2), transparent 66%);
+            animation: sirenPulse 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            width: 440px;
+            height: 440px;
+            bottom: 2%;
+            right: -6%;
+            background: radial-gradient(circle, rgba(149, 85, 30, 0.22), transparent 70%);
+            animation: sirenPulse 7.5s ease-in-out infinite reverse;
+        }
+
+        @keyframes sirenPulse {
+
+            0%,
+            100% {
+                transform: scale(0.9);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 0.9;
+            }
+        }
+
+        .hero-kicker {
+            display: inline-flex;
+            gap: 0.7rem;
+            align-items: center;
+            margin-bottom: 1.3rem;
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(90deg, rgba(255, 182, 29, 0.16), rgba(97, 48, 128, 0.24));
+            border: 1px solid rgba(255, 182, 29, 0.35);
+            border-radius: 999px;
+            box-shadow: 0 0 24px rgba(255, 182, 29, 0.12);
+            color: var(--hazard);
+            font-size: 0.95rem;
+            animation: kickerJitter 4.5s steps(2) infinite;
+        }
+
+        @keyframes kickerJitter {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            25% {
+                transform: translateY(-1px) rotate(-0.3deg);
+            }
+
+            50% {
+                transform: translateY(1px) rotate(0.4deg);
+            }
+
+            75% {
+                transform: translateY(-1px) rotate(-0.2deg);
+            }
         }
 
         .hero h1 {
-            font-size: clamp(2rem, 8vw, 5rem);
-            line-height: 1.1;
+            max-width: 980px;
+            font-size: clamp(2.4rem, 8.8vw, 6.5rem);
+            line-height: 0.95;
+            color: var(--acid-lime);
             text-shadow:
-                0 0 20px rgba(122, 159, 53, 0.6),
-                0 0 60px rgba(122, 159, 53, 0.3),
-                3px 3px 0 var(--soup-brown);
-            color: var(--text-glow);
-            animation: titlePulse 3s ease-in-out infinite;
-            margin-bottom: 1.5rem;
+                0 0 22px rgba(217, 255, 82, 0.62),
+                0 0 60px rgba(217, 255, 82, 0.26),
+                5px 5px 0 rgba(149, 85, 30, 0.9),
+                -4px -4px 0 rgba(97, 48, 128, 0.6);
+            animation: headlineThump 3.5s ease-in-out infinite;
         }
 
-        @keyframes titlePulse {
+        @keyframes headlineThump {
 
             0%,
             100% {
-                transform: scale(1);
-                text-shadow: 0 0 20px rgba(122, 159, 53, 0.6), 0 0 60px rgba(122, 159, 53, 0.3), 3px 3px 0 var(--soup-brown);
+                transform: scale(1) rotate(-1deg);
             }
 
-            50% {
-                transform: scale(1.02);
-                text-shadow: 0 0 40px rgba(122, 159, 53, 0.8), 0 0 80px rgba(122, 159, 53, 0.5), 3px 3px 0 var(--soup-brown);
-            }
-        }
-
-        .hero .tagline {
-            font-size: clamp(1rem, 3vw, 1.8rem);
-            color: var(--soup-brown-light);
-            font-style: italic;
-            min-height: 2.5em;
-        }
-
-        .hero .tagline span {
-            display: inline-block;
-            animation: taglineFade 12s ease-in-out infinite;
-        }
-
-        @keyframes taglineFade {
-
-            0%,
             30% {
-                opacity: 1;
-                transform: translateY(0);
+                transform: scale(1.03) rotate(1deg);
             }
 
-            33%,
-            36% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            39%,
-            63% {
-                opacity: 1;
-                transform: translateY(0);
-            }
-
-            66%,
-            69% {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            72%,
-            100% {
-                opacity: 1;
-                transform: translateY(0);
+            60% {
+                transform: scale(0.985) rotate(-0.5deg);
             }
         }
 
-        .hero .down-arrow {
-            margin-top: 3rem;
-            font-size: 2.5rem;
-            animation: bounce 2s ease-in-out infinite;
-            cursor: pointer;
-            text-decoration: none;
+        .hero-subhead {
+            max-width: 900px;
+            margin-top: 1.5rem;
+            color: var(--text-dim);
+            font-size: clamp(1rem, 2.6vw, 1.4rem);
+            line-height: 1.5;
         }
 
-        @keyframes bounce {
+        .tagline {
+            margin-top: 1.4rem;
+            min-height: 2.6em;
+            color: var(--broth-light);
+            font-size: clamp(1.1rem, 3vw, 1.85rem);
+            font-style: italic;
+        }
+
+        .tagline span {
+            display: inline-block;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.9rem;
+            margin-top: 2rem;
+            max-width: 920px;
+        }
+
+        .hero-stat {
+            min-width: 190px;
+            padding: 1rem 1.1rem;
+            background: linear-gradient(180deg, rgba(36, 23, 13, 0.88), rgba(21, 13, 7, 0.94));
+            border: 1px solid rgba(217, 255, 82, 0.14);
+            border-radius: 18px;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(6px);
+            animation: statBob 6s ease-in-out infinite;
+        }
+
+        .hero-stat:nth-child(2) {
+            animation-delay: 0.8s;
+        }
+
+        .hero-stat:nth-child(3) {
+            animation-delay: 1.6s;
+        }
+
+        @keyframes statBob {
 
             0%,
             100% {
@@ -368,146 +553,498 @@
             }
 
             50% {
-                transform: translateY(15px);
+                transform: translateY(-8px);
             }
         }
 
-        /* ===== SECTION TITLES ===== */
-        .section-title {
-            text-align: center;
-            font-size: clamp(1.5rem, 5vw, 3rem);
-            color: var(--text-glow);
-            text-shadow: 0 0 15px rgba(122, 159, 53, 0.5);
-            margin-bottom: 2rem;
-            padding-top: 1rem;
+        .hero-stat strong {
+            display: block;
+            font-size: 1.8rem;
+            color: var(--acid-lime);
         }
 
-        /* ===== COLLAGE ===== */
-        .collage-section {
+        .hero-stat span {
+            display: block;
+            margin-top: 0.25rem;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .down-arrow {
+            margin-top: 2.4rem;
+            font-size: 2.8rem;
+            text-decoration: none;
+            animation: arrowBounce 1.9s ease-in-out infinite;
+            filter: drop-shadow(0 0 18px rgba(217, 255, 82, 0.35));
+        }
+
+        @keyframes arrowBounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(14px) scale(1.06);
+            }
+        }
+
+        .warning-tape {
             position: relative;
             z-index: 2;
-            padding: 4rem 2rem;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 182, 29, 0.26);
+            border-bottom: 1px solid rgba(255, 182, 29, 0.26);
+            background: repeating-linear-gradient(-55deg, #24170d 0 16px, #3a220f 16px 32px);
+        }
+
+        .warning-tape-track {
+            display: inline-block;
+            padding: 0.9rem 0;
+            white-space: nowrap;
+            color: var(--hazard);
+            font-size: 1.05rem;
+            animation: tapeScroll 20s linear infinite;
+        }
+
+        @keyframes tapeScroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .section-block {
+            padding: 4.5rem 1.25rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(1.7rem, 5vw, 3.6rem);
+            color: var(--acid-lime);
+            text-shadow: 0 0 20px rgba(217, 255, 82, 0.35);
+            animation: titleShake 5s ease-in-out infinite;
+        }
+
+        @keyframes titleShake {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            20% {
+                transform: rotate(-0.5deg);
+            }
+
+            40% {
+                transform: rotate(0.5deg);
+            }
+
+            60% {
+                transform: rotate(-0.2deg);
+            }
+        }
+
+        .section-intro {
+            max-width: 860px;
+            margin: 1rem auto 0;
+            color: var(--text-dim);
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .content-frame {
+            max-width: 1320px;
+            margin: 2.5rem auto 0;
         }
 
         .collage-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 1.2rem;
+            grid-auto-flow: dense;
         }
 
         .collage-item {
-            background: var(--bg-card);
-            border: 4px solid var(--soup-brown);
-            padding: 12px 12px 40px;
-            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.5);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
             position: relative;
-            overflow: visible;
+            grid-column: span 3;
+            background: linear-gradient(180deg, rgba(45, 31, 19, 0.96), rgba(24, 16, 9, 0.98));
+            border: 3px solid rgba(216, 168, 109, 0.7);
+            border-radius: 24px;
+            padding: 0.9rem 0.9rem 1rem;
+            box-shadow: 0 16px 34px rgba(0, 0, 0, 0.3);
+            transform: rotate(var(--tilt, -3deg));
+            overflow: hidden;
+            isolation: isolate;
+            animation: cardHoverFloat 7s ease-in-out infinite;
+            animation-delay: var(--float-delay, 0s);
+            transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
         }
 
-        .collage-item:nth-child(odd) {
-            transform: rotate(-3deg);
+        .collage-item::before {
+            content: "";
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            width: 110px;
+            height: 38px;
+            transform: translateX(-50%) rotate(-2deg);
+            background: rgba(255, 239, 196, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .collage-item:nth-child(even) {
-            transform: rotate(2deg);
-        }
-
-        .collage-item:nth-child(3n) {
-            transform: rotate(-5deg);
-        }
-
-        .collage-item:nth-child(4n) {
-            transform: rotate(4deg);
-        }
-
-        .collage-item:nth-child(5n) {
-            transform: rotate(-1deg);
+        .collage-item::after {
+            content: "STINK";
+            position: absolute;
+            right: 0.8rem;
+            top: 0.8rem;
+            padding: 0.35rem 0.5rem;
+            background: rgba(217, 255, 82, 0.16);
+            border: 1px solid rgba(217, 255, 82, 0.4);
+            border-radius: 999px;
+            color: var(--acid-lime);
+            font-size: 0.72rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
         }
 
         .collage-item:hover {
-            transform: rotate(0deg) scale(1.08) !important;
-            box-shadow: 0 0 30px rgba(122, 159, 53, 0.4), 8px 8px 30px rgba(0, 0, 0, 0.6);
-            z-index: 10;
+            transform: rotate(0deg) scale(1.05) translateY(-10px);
+            box-shadow: 0 0 38px rgba(217, 255, 82, 0.16), 0 20px 44px rgba(0, 0, 0, 0.4);
+            border-color: rgba(217, 255, 82, 0.6);
+            z-index: 5;
         }
 
-        .collage-item img {
+        @keyframes cardHoverFloat {
+
+            0%,
+            100% {
+                transform: rotate(var(--tilt, -3deg)) translateY(0);
+            }
+
+            50% {
+                transform: rotate(calc(var(--tilt, -3deg) * 0.55)) translateY(-8px);
+            }
+        }
+
+        .collage-item.layout-wide {
+            grid-column: span 6;
+        }
+
+        .collage-item.layout-poster {
+            grid-column: span 4;
+        }
+
+        .collage-item.layout-tall {
+            grid-column: span 3;
+            grid-row: span 2;
+        }
+
+        .collage-item.layout-feature {
+            grid-column: span 5;
+        }
+
+        .collage-media {
             width: 100%;
-            height: auto;
+            height: 280px;
             display: block;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .collage-item.layout-wide .collage-media,
+        .collage-item.layout-feature .collage-media {
+            height: 340px;
+        }
+
+        .collage-item.layout-tall .collage-media {
+            height: 520px;
+        }
+
+        .collage-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 0.85rem;
+        }
+
+        .case-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--hazard);
+            font-size: 0.78rem;
         }
 
         .collage-caption {
-            position: absolute;
-            bottom: 8px;
-            left: 12px;
-            right: 12px;
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--soup-brown-light);
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+            font-size: 0.96rem;
+            font-weight: 800;
+            color: var(--broth-light);
+            text-align: right;
         }
 
-        /* Fart burst on hover */
-        .collage-item::after {
-            content: '💨';
+        .fallback-card {
+            grid-column: 1 / -1;
+            padding: 3rem;
+            border: 2px dashed rgba(217, 255, 82, 0.4);
+            border-radius: 24px;
+            text-align: center;
+            font-size: 1.2rem;
+            background: rgba(36, 23, 13, 0.8);
+        }
+
+        .lineup-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.3rem;
+        }
+
+        .lineup-card {
+            position: relative;
+            overflow: hidden;
+            min-height: 100%;
+            border-radius: 22px;
+            padding: 1rem;
+            background: linear-gradient(180deg, rgba(38, 24, 13, 0.96), rgba(22, 14, 8, 0.96));
+            border: 2px solid rgba(216, 168, 109, 0.35);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.28);
+            transform: rotate(var(--tilt, 0deg));
+            animation: lineupTilt 8s ease-in-out infinite;
+            animation-delay: var(--float-delay, 0s);
+        }
+
+        .lineup-card.layout-poster {
+            background: linear-gradient(180deg, rgba(61, 34, 12, 0.98), rgba(28, 17, 8, 0.98));
+        }
+
+        .lineup-card.layout-ticket {
+            border-radius: 40px 40px 18px 18px;
+            border-style: dashed;
+        }
+
+        .lineup-card.layout-mugshot {
+            background: linear-gradient(180deg, rgba(27, 18, 9, 0.98), rgba(37, 25, 14, 0.98));
+        }
+
+        @keyframes lineupTilt {
+
+            0%,
+            100% {
+                transform: rotate(var(--tilt, 0deg)) translateY(0);
+            }
+
+            50% {
+                transform: rotate(calc(var(--tilt, 0deg) * -0.5)) translateY(-10px);
+            }
+        }
+
+        .lineup-number {
+            position: absolute;
+            top: 0.9rem;
+            right: 0.9rem;
+            color: rgba(248, 234, 209, 0.2);
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .lineup-photo {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            display: block;
+        }
+
+        .lineup-body {
+            margin-top: 1rem;
+        }
+
+        .lineup-body h3 {
+            font-size: 1.35rem;
+            color: var(--acid-lime);
+        }
+
+        .lineup-body p {
+            margin-top: 0.6rem;
+            color: var(--text-dim);
+            line-height: 1.55;
+        }
+
+        .lineup-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.9rem;
+        }
+
+        .lineup-tags span {
+            padding: 0.4rem 0.6rem;
+            border-radius: 999px;
+            background: rgba(217, 255, 82, 0.12);
+            color: var(--acid-lime);
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .incident-grid {
+            display: grid;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 1rem;
+            align-items: start;
+        }
+
+        .incident-card {
+            grid-column: span 4;
+            position: relative;
+            background: var(--paper);
+            color: #2b190d;
+            border-radius: 18px;
+            padding: 1rem;
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
+            transform: rotate(var(--tilt, -2deg));
+            animation: noteSway 7s ease-in-out infinite;
+            animation-delay: var(--float-delay, 0s);
+        }
+
+        .incident-card.layout-wide {
+            grid-column: span 6;
+        }
+
+        .incident-card.layout-tall {
+            grid-column: span 3;
+        }
+
+        .incident-card.layout-clip {
+            border-top-left-radius: 36px;
+        }
+
+        .incident-card::before {
+            content: "";
             position: absolute;
             top: -10px;
-            right: -10px;
-            font-size: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s, transform 0.3s;
-            transform: scale(0.5);
-            pointer-events: none;
+            left: 18px;
+            width: 58px;
+            height: 22px;
+            border-radius: 999px;
+            background: rgba(97, 48, 128, 0.24);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
         }
 
-        .collage-item:hover::after {
-            opacity: 1;
-            transform: scale(1.3);
+        @keyframes noteSway {
+
+            0%,
+            100% {
+                transform: rotate(var(--tilt, -2deg)) translateY(0);
+            }
+
+            50% {
+                transform: rotate(calc(var(--tilt, -2deg) * -0.4)) translateY(-7px);
+            }
         }
 
-        /* ===== SMELL RATING ===== */
-        .smell-section {
-            position: relative;
-            z-index: 2;
-            padding: 4rem 2rem;
-            text-align: center;
+        .incident-label {
+            display: inline-block;
+            padding: 0.25rem 0.55rem;
+            border-radius: 999px;
+            background: #2b190d;
+            color: var(--hazard);
+            font-size: 0.72rem;
+            margin-bottom: 0.85rem;
+        }
+
+        .incident-content {
+            display: grid;
+            grid-template-columns: 100px 1fr;
+            gap: 0.9rem;
+            align-items: start;
+        }
+
+        .incident-card.layout-tall .incident-content {
+            grid-template-columns: 1fr;
+        }
+
+        .incident-photo {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid rgba(43, 25, 13, 0.15);
+        }
+
+        .incident-copy h3 {
+            font-size: 1.15rem;
+            line-height: 1.15;
+        }
+
+        .incident-copy p {
+            margin-top: 0.55rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .incident-copy strong {
+            color: var(--bruise);
         }
 
         .smell-card {
-            max-width: 600px;
+            max-width: 760px;
             margin: 0 auto;
-            background: var(--bg-card);
-            border: 3px solid var(--fart-green-dark);
-            border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 0 40px rgba(122, 159, 53, 0.15);
+            border-radius: 24px;
+            background:
+                linear-gradient(180deg, rgba(38, 24, 13, 0.96), rgba(22, 14, 8, 0.98)),
+                linear-gradient(90deg, rgba(217, 255, 82, 0.1), rgba(97, 48, 128, 0.08));
+            border: 2px solid rgba(217, 255, 82, 0.22);
+            box-shadow: 0 24px 44px rgba(0, 0, 0, 0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .smell-card::after {
+            content: "";
+            position: absolute;
+            inset: -30% auto auto 60%;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(217, 255, 82, 0.12), transparent 68%);
+            animation: hazeDrift 10s linear infinite;
+            pointer-events: none;
+        }
+
+        .smell-lead {
+            margin-bottom: 1.3rem;
+            color: var(--text-dim);
+            line-height: 1.7;
         }
 
         .smell-btn {
-            background: linear-gradient(135deg, var(--fart-green), var(--fart-green-dark));
-            color: #fff;
             border: none;
-            padding: 1rem 2.5rem;
-            font-size: 1.3rem;
-            font-family: inherit;
-            font-weight: 900;
-            text-transform: uppercase;
-            border-radius: 50px;
+            border-radius: 999px;
+            padding: 1rem 2.3rem;
+            color: #201308;
+            font-size: 1.22rem;
+            background: linear-gradient(135deg, var(--acid-lime), var(--hazard));
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(122, 159, 53, 0.3);
-            letter-spacing: 0.05em;
+            box-shadow: 0 10px 24px rgba(217, 255, 82, 0.24);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .smell-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 25px rgba(122, 159, 53, 0.5);
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 14px 30px rgba(217, 255, 82, 0.35);
         }
 
         .smell-btn:active {
@@ -515,100 +1052,86 @@
         }
 
         .smell-result {
-            margin-top: 2rem;
-            font-size: 1.4rem;
-            min-height: 3em;
+            margin-top: 1.8rem;
+            font-size: 1.35rem;
+            min-height: 3.2em;
             line-height: 1.6;
         }
 
         .smell-result .fart-pct {
-            color: var(--fart-green);
+            color: var(--acid-lime);
             font-weight: 900;
         }
 
         .smell-result .soup-pct {
-            color: var(--soup-brown-light);
+            color: var(--broth-light);
             font-weight: 900;
         }
 
         .smell-bar-container {
             margin-top: 1rem;
-            height: 30px;
-            background: #111;
-            border-radius: 15px;
+            height: 32px;
+            border-radius: 999px;
             overflow: hidden;
-            position: relative;
-            border: 2px solid var(--soup-brown);
+            border: 2px solid rgba(216, 168, 109, 0.7);
+            background: #140d07;
         }
 
         .smell-bar-fart {
             height: 100%;
-            background: linear-gradient(90deg, var(--fart-green-dark), var(--fart-green));
-            border-radius: 15px 0 0 15px;
-            transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 900;
-            color: #fff;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        /* ===== SOUNDBOARD ===== */
-        .soundboard-section {
-            position: relative;
-            z-index: 2;
-            padding: 4rem 2rem;
-            text-align: center;
+            color: #201308;
+            background: linear-gradient(90deg, var(--swamp-dark), var(--acid-lime));
+            transition: width 0.85s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .soundboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.1rem;
+            max-width: 1100px;
+            margin: 2.2rem auto 0;
         }
 
         .fart-btn {
-            background: linear-gradient(180deg, var(--soup-brown), #5a3820);
-            color: var(--text-light);
-            border: 3px solid var(--soup-brown-light);
-            padding: 1.5rem 1rem;
-            font-size: 1rem;
-            font-family: inherit;
-            font-weight: 900;
-            text-transform: uppercase;
-            border-radius: 16px;
-            cursor: pointer;
-            transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             position: relative;
             overflow: hidden;
+            padding: 1.35rem 0.9rem;
+            border-radius: 18px;
+            border: 2px solid rgba(216, 168, 109, 0.55);
+            background: linear-gradient(180deg, rgba(149, 85, 30, 0.96), rgba(63, 35, 15, 0.98));
+            color: var(--text);
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.26);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
         }
 
         .fart-btn:hover {
-            transform: scale(1.06);
-            box-shadow: 0 6px 25px rgba(139, 94, 60, 0.5);
-            border-color: var(--fart-green);
+            transform: translateY(-8px) scale(1.04) rotate(-1deg);
+            border-color: rgba(217, 255, 82, 0.6);
+            box-shadow: 0 18px 32px rgba(0, 0, 0, 0.35);
         }
 
         .fart-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.96);
         }
 
-        .fart-btn .btn-emoji {
+        .btn-emoji {
             display: block;
+            margin-bottom: 0.45rem;
             font-size: 2rem;
-            margin-bottom: 0.5rem;
         }
 
-        /* Ripple effect */
         .fart-btn .ripple {
             position: absolute;
             border-radius: 50%;
-            background: rgba(122, 159, 53, 0.4);
+            background: rgba(217, 255, 82, 0.35);
             transform: scale(0);
             animation: rippleAnim 0.6s ease-out;
             pointer-events: none;
@@ -621,7 +1144,6 @@
             }
         }
 
-        /* Emoji explosion */
         .emoji-burst {
             position: fixed;
             font-size: 2rem;
@@ -638,243 +1160,474 @@
 
             100% {
                 opacity: 0;
-                transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(360deg);
+                transform: translate(var(--tx), var(--ty)) scale(0.25) rotate(400deg);
             }
         }
 
-        /* ===== WALL OF SHAME (extra scroll section) ===== */
-        .shame-section {
-            position: relative;
-            z-index: 2;
-            padding: 4rem 2rem;
-            text-align: center;
+        body.sound-chaos {
+            animation: pageRattle 0.18s linear 2;
+        }
+
+        @keyframes pageRattle {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            25% {
+                transform: translate3d(-4px, 1px, 0);
+            }
+
+            50% {
+                transform: translate3d(4px, -1px, 0);
+            }
+
+            75% {
+                transform: translate3d(-2px, 1px, 0);
+            }
+
+            100% {
+                transform: translate3d(0, 0, 0);
+            }
         }
 
         .shame-facts {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            max-width: 950px;
+            margin: 2.5rem auto 0;
+            display: grid;
+            gap: 1rem;
         }
 
         .shame-fact {
-            background: var(--bg-card);
-            border-left: 5px solid var(--puke-yellow);
-            padding: 1.5rem 2rem;
-            text-align: left;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            border-radius: 0 12px 12px 0;
+            position: relative;
+            padding: 1.35rem 1.5rem 1.35rem 1.6rem;
+            background: linear-gradient(180deg, rgba(36, 23, 13, 0.94), rgba(22, 14, 8, 0.98));
+            border-left: 6px solid var(--hazard);
+            border-radius: 0 18px 18px 0;
+            color: var(--text-dim);
+            line-height: 1.7;
             opacity: 0;
-            transform: translateX(-30px);
-            transition: opacity 0.6s, transform 0.6s;
+            transform: translateX(-34px) rotate(-1deg);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            box-shadow: 0 18px 32px rgba(0, 0, 0, 0.24);
+        }
+
+        .shame-fact:nth-child(even) {
+            transform: translateX(34px) rotate(1deg);
+            border-left-color: var(--acid-lime);
         }
 
         .shame-fact.visible {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateX(0) rotate(0deg);
         }
 
-        /* ===== FOOTER ===== */
         .site-footer {
-            position: relative;
-            z-index: 2;
+            padding: 3rem 1.5rem 4rem;
             text-align: center;
-            padding: 3rem 2rem;
-            border-top: 2px solid var(--soup-brown);
-            color: var(--soup-brown-light);
-            font-size: 0.9rem;
-            line-height: 1.8;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(216, 168, 109, 0.28);
+            background: linear-gradient(180deg, rgba(20, 13, 7, 0), rgba(20, 13, 7, 0.8));
         }
 
-        .site-footer .disclaimer {
+        .site-footer p+p {
+            margin-top: 0.7rem;
+        }
+
+        .disclaimer {
             font-style: italic;
-            opacity: 0.7;
+            opacity: 0.82;
         }
 
-        /* ===== PARALLAX LAYERS ===== */
-        .parallax-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: -1;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(122, 159, 53, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 94, 60, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(107, 63, 160, 0.05) 0%, transparent 60%);
-            transform: translateZ(-2px) scale(1.2);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-            .collage-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 1rem;
-            }
-
+        @media (max-width: 1080px) {
             .collage-item {
-                padding: 8px 8px 30px;
+                grid-column: span 4;
             }
 
-            .soundboard-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
+            .collage-item.layout-wide,
+            .collage-item.layout-feature {
+                grid-column: span 8;
+            }
+
+            .incident-card {
+                grid-column: span 6;
+            }
+
+            .incident-card.layout-wide {
+                grid-column: span 12;
+            }
+
+            .incident-card.layout-tall {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 760px) {
+            .section-block {
+                padding: 3.5rem 1rem;
             }
 
             .scroll-banner {
                 font-size: 5vw !important;
             }
 
-            .shame-fact {
-                padding: 1rem 1.5rem;
+            .hero-stats {
+                gap: 0.75rem;
+            }
+
+            .hero-stat {
+                min-width: 150px;
+            }
+
+            .collage-grid,
+            .incident-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .collage-item,
+            .collage-item.layout-wide,
+            .collage-item.layout-feature,
+            .collage-item.layout-poster,
+            .collage-item.layout-tall,
+            .incident-card,
+            .incident-card.layout-wide,
+            .incident-card.layout-tall {
+                grid-column: span 2;
+                grid-row: auto;
+            }
+
+            .collage-media,
+            .collage-item.layout-wide .collage-media,
+            .collage-item.layout-feature .collage-media,
+            .collage-item.layout-tall .collage-media {
+                height: 250px;
+            }
+
+            .incident-content {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
-            .collage-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
+        @media (max-width: 520px) {
+            .hero-kicker {
+                font-size: 0.8rem;
             }
 
+            .hero h1 {
+                font-size: clamp(2rem, 12vw, 4rem);
+            }
+
+            .lineup-grid,
             .soundboard-grid {
                 grid-template-columns: 1fr 1fr;
             }
 
-            .hero h1 {
-                font-size: clamp(1.5rem, 10vw, 3rem);
+            .hero-stat {
+                width: 100%;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="page-shell">
+        <div class="parallax-bg"></div>
 
-    <!-- Parallax background -->
-    <div class="parallax-bg"></div>
+        <div class="emoji-layer">
+            <div class="floating-emoji">🐕</div>
+            <div class="floating-emoji">💨</div>
+            <div class="floating-emoji">🍲</div>
+            <div class="floating-emoji">🥣</div>
+            <div class="floating-emoji">💩</div>
+            <div class="floating-emoji">🤢</div>
+            <div class="floating-emoji">🐶</div>
+            <div class="floating-emoji">💨</div>
+            <div class="floating-emoji">🍜</div>
+            <div class="floating-emoji">🤮</div>
+            <div class="floating-emoji">🥫</div>
+            <div class="floating-emoji">💨</div>
+            <div class="floating-emoji">🐕</div>
+            <div class="floating-emoji">🍲</div>
+            <div class="floating-emoji">💩</div>
+            <div class="floating-emoji">🤢</div>
+            <div class="floating-emoji">🍜</div>
+            <div class="floating-emoji">💨</div>
+        </div>
 
-    <!-- Floating emojis -->
-    <div class="emoji-layer">
-        <div class="floating-emoji">🐕</div>
-        <div class="floating-emoji">💨</div>
-        <div class="floating-emoji">🍲</div>
-        <div class="floating-emoji">🥣</div>
-        <div class="floating-emoji">💩</div>
-        <div class="floating-emoji">🤢</div>
-        <div class="floating-emoji">🐕</div>
-        <div class="floating-emoji">💨</div>
-        <div class="floating-emoji">🍜</div>
-        <div class="floating-emoji">🤮</div>
-        <div class="floating-emoji">🐶</div>
-        <div class="floating-emoji">💨</div>
-        <div class="floating-emoji">🥫</div>
-        <div class="floating-emoji">🐕</div>
-        <div class="floating-emoji">💨</div>
+        <div class="banner-layer">
+            <div class="scroll-banner">DEVIN ENTERS A ROOM AND THE AIR FILES A COMPLAINT • DEVIN ENTERS A ROOM AND THE
+                AIR FILES A COMPLAINT • DEVIN ENTERS A ROOM AND THE AIR FILES A COMPLAINT •</div>
+            <div class="scroll-banner">THIS IS NOT A SOUP KITCHEN EMERGENCY, IT IS JUST DEVIN • THIS IS NOT A SOUP
+                KITCHEN EMERGENCY, IT IS JUST DEVIN • THIS IS NOT A SOUP KITCHEN EMERGENCY, IT IS JUST DEVIN •</div>
+            <div class="scroll-banner">THE DOG LEFT A ONE-STAR REVIEW • WITNESSES REPORTED BROTH-LIKE CONDITIONS • THE
+                DOG LEFT A ONE-STAR REVIEW • WITNESSES REPORTED BROTH-LIKE CONDITIONS •</div>
+            <div class="scroll-banner">HAZMAT RECOMMENDED OPEN WINDOWS • PUBLIC NOSTRILS REMAIN OFFENDED • HAZMAT
+                RECOMMENDED OPEN WINDOWS • PUBLIC NOSTRILS REMAIN OFFENDED •</div>
+        </div>
+
+        <section class="hero" id="top">
+            <div class="hero-kicker"><span>Hazmat bulletin</span><span>Level orange stench event</span></div>
+            <h1>DEVIN SMELLS OF<br>DOG FARTS<br>&amp; SOUP</h1>
+            <p class="hero-subhead">An unnecessarily committed digital case file documenting the ongoing atmospheric
+                consequences of one extremely soup-adjacent Devin.</p>
+            <div class="tagline" id="tagline"><span>A fact. Not an opinion.</span></div>
+            <div class="hero-stats">
+                <div class="hero-stat"><strong>{{IMAGE_COUNT}}</strong><span>photographic exhibits</span></div>
+                <div class="hero-stat"><strong>0</strong><span>successful denials</span></div>
+                <div class="hero-stat"><strong>24/7</strong><span>odor surveillance</span></div>
+            </div>
+            <a href="#evidence" class="down-arrow" aria-label="Scroll to evidence">👇</a>
+        </section>
+
+        <div class="warning-tape" aria-hidden="true">
+            <div class="warning-tape-track">HAZMAT NOSE ADVISORY • OPEN A WINDOW • VERIFY IT IS NOT THE SOUP • HAZMAT
+                NOSE ADVISORY • OPEN A WINDOW • VERIFY IT IS NOT THE SOUP • HAZMAT NOSE ADVISORY • OPEN A WINDOW •
+                VERIFY IT IS NOT THE SOUP • </div>
+        </div>
+
+        <section class="collage-section section-block" id="evidence">
+            <h2 class="section-title">The Evidence Pile</h2>
+            <p class="section-intro">The original chaos wall remains intact, now with louder motion, uglier
+                implications, and a stronger commitment to making each photo look like it was pinned up during an
+                ongoing stink emergency.</p>
+            <div class="content-frame">
+                <div class="collage-grid" id="collageGrid"></div>
+            </div>
+        </section>
+
+        <section class="lineup-section section-block" id="lineup">
+            <h2 class="section-title">The Suspect Lineup</h2>
+            <p class="section-intro">A cleaner layout for anyone who prefers their humiliation indexed, numbered, and
+                presented like a municipal warning notice.</p>
+            <div class="content-frame">
+                <div class="lineup-grid" id="lineupGrid"></div>
+            </div>
+        </section>
+
+        <section class="incident-section section-block" id="incident-board">
+            <h2 class="section-title">Incident Board</h2>
+            <p class="section-intro">Loose notes from the ongoing investigation, arranged like a detective lost the plot
+                somewhere between dog park testimony and a pot of suspicious chowder.</p>
+            <div class="content-frame">
+                <div class="incident-grid" id="incidentGrid"></div>
+            </div>
+        </section>
+
+        <section class="smell-section section-block" id="smell-rating">
+            <h2 class="section-title">Today's Smell Rating</h2>
+            <div class="content-frame">
+                <div class="smell-card">
+                    <p class="smell-lead">Our patented Devin Smell Analysis Engine has upgraded from rude joke to full
+                        civic infrastructure issue and is prepared to assign percentages with reckless confidence.</p>
+                    <button class="smell-btn" id="smellBtn" type="button">Analyze The Stench</button>
+                    <div class="smell-result" id="smellResult"></div>
+                    <div class="smell-bar-container" id="smellBarContainer" style="display:none;">
+                        <div class="smell-bar-fart" id="smellBarFart"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="soundboard-section section-block" id="soundboard">
+            <h2 class="section-title">The Fart Soundboard</h2>
+            <p class="section-intro">For reenactments, audio scholarship, and anyone who felt the visuals were still
+                somehow too restrained.</p>
+            <div class="soundboard-grid">
+                {{FART_SOUNDS}}
+            </div>
+        </section>
+
+        <section class="shame-section section-block" id="wall-of-shame">
+            <h2 class="section-title">Wall Of Shame</h2>
+            <p class="section-intro">Statements collected from family members, witnesses, and brave civilians who
+                entered the radius and lived to describe it.</p>
+            <div class="shame-facts">
+                <div class="shame-fact">"He walked through the kitchen and I checked three burners, the trash can, and
+                    the dog before realizing it was just Devin standing there like a human casserole problem." —
+                    <em>Mom</em></div>
+                <div class="shame-fact">"The family dog sniffed once, looked disappointed, and left the room. I have
+                    never seen an animal so judgmental." — <em>Dad</em></div>
+                <div class="shame-fact">"He smells like somebody microwaved wet kibble in a bowling shoe and called it
+                    soup night." — <em>Concerned Relative</em></div>
+                <div class="shame-fact">"A breeze hit him in the driveway and three neighbors checked whether the sewer
+                    line had ruptured again." — <em>Eyewitness</em></div>
+                <div class="shame-fact">"He entered the dog park and somehow became the least welcome mammal there." —
+                    <em>Reliable Source</em></div>
+                <div class="shame-fact">"If stale broth and canine flatulence had a brand ambassador, legal would make
+                    us say it is allegedly Devin." — <em>Probably Real Scientists</em></div>
+                <div class="shame-fact">"You know a smell is serious when it arrives before the person does. Devin has a
+                    trailer, and it is all fumes." — <em>Multiple Witnesses</em></div>
+                <div class="shame-fact">"I bought him premium air freshener. The room smelled offended anyway." —
+                    <em>His Brother</em></div>
+            </div>
+        </section>
+
+        <footer class="site-footer">
+            <p>This website remains a scientific document peer-reviewed by the family dog, two exhausted nostrils, and
+                one pot of innocent soup that did not deserve this comparison.</p>
+            <p class="disclaimer">No Devins were harmed in the making of this website. His reputation, however, is
+                taking repeated structural damage.</p>
+            <p>Built with bad intentions, questionable rigor, and a lot of animated fumes.</p>
+        </footer>
     </div>
 
-    <!-- Scrolling text banners -->
-    <div class="banner-layer">
-        <div class="scroll-banner">WHY DOES DEVIN SMELL LIKE DOG FARTS? &bull; WHY DOES DEVIN SMELL LIKE DOG FARTS?
-            &bull; WHY DOES DEVIN SMELL LIKE DOG FARTS? &bull;</div>
-        <div class="scroll-banner">IS THAT SOUP OR IS THAT DEVIN? &bull; IS THAT SOUP OR IS THAT DEVIN? &bull; IS THAT
-            SOUP OR IS THAT DEVIN? &bull;</div>
-        <div class="scroll-banner">THE STENCH IS UNDENIABLE &bull; SCIENCE HAS CONFIRMED IT &bull; THE DOG AGREES &bull;
-            THE STENCH IS UNDENIABLE &bull;</div>
-        <div class="scroll-banner">SMELLS LIKE DOG FARTS AND SOUP &bull; SMELLS LIKE DOG FARTS AND SOUP &bull; SMELLS
-            LIKE DOG FARTS AND SOUP &bull;</div>
-    </div>
-
-    <!-- ===== HERO ===== -->
-    <section class="hero" id="top">
-        <h1>DEVIN SMELLS OF<br>DOG FARTS<br>&amp; SOUP</h1>
-        <div class="tagline" id="tagline"><span>A fact. Not an opinion.</span></div>
-        <a href="#evidence" class="down-arrow" aria-label="Scroll to evidence">👇</a>
-    </section>
-
-    <!-- ===== COLLAGE ===== -->
-    <section class="collage-section" id="evidence">
-        <h2 class="section-title">📸 THE EVIDENCE 📸</h2>
-        <div class="collage-grid">
-            {{IMAGES}}
-        </div>
-    </section>
-
-    <!-- ===== SMELL RATING ===== -->
-    <section class="smell-section" id="smell-rating">
-        <h2 class="section-title">🧪 TODAY'S SMELL RATING 🧪</h2>
-        <div class="smell-card">
-            <p style="margin-bottom:1.5rem; opacity:0.8;">Our patented Devin Smell Analysis Engine&trade; has
-                determined:</p>
-            <button class="smell-btn" id="smellBtn" type="button">🐕 ANALYZE THE STENCH 💨</button>
-            <div class="smell-result" id="smellResult"></div>
-            <div class="smell-bar-container" id="smellBarContainer" style="display:none;">
-                <div class="smell-bar-fart" id="smellBarFart" style="width:0%"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== SOUNDBOARD ===== -->
-    <section class="soundboard-section" id="soundboard">
-        <h2 class="section-title">🔊 THE FART SOUNDBOARD 🔊</h2>
-        <div class="soundboard-grid">
-            {{FART_SOUNDS}}
-        </div>
-    </section>
-
-    <!-- ===== WALL OF SHAME ===== -->
-    <section class="shame-section" id="wall-of-shame">
-        <h2 class="section-title">📜 WALL OF SHAME 📜</h2>
-        <div class="shame-facts">
-            <div class="shame-fact">"I once thought there was a gas leak. Turns out it was just Devin entering the
-                room." — <em>Mom</em></div>
-            <div class="shame-fact">"The family dog refuses to sit next to him. Even the dog has standards." —
-                <em>Dad</em></div>
-            <div class="shame-fact">"He walked into the kitchen and I thought the soup was burning. There was no soup."
-                — <em>Eyewitness</em></div>
-            <div class="shame-fact">"Scientists wanted to study his aroma but their instruments couldn't handle it." —
-                <em>Probably Real Scientists</em></div>
-            <div class="shame-fact">"He went to a dog park and three dogs tried to bury him." — <em>Reliable Source</em>
-            </div>
-            <div class="shame-fact">"Every restaurant he enters, the chef comes out to check if the soup has gone bad."
-                — <em>Multiple Witnesses</em></div>
-            <div class="shame-fact">"His cologne is called 'Eau de Kibble &amp; Minestrone' and it's all natural." —
-                <em>The Nose Knows</em></div>
-            <div class="shame-fact">"I bought him air freshener for Christmas. He ate it. Still smells the same." —
-                <em>His Brother</em></div>
-        </div>
-    </section>
-
-    <!-- ===== FOOTER ===== -->
-    <footer class="site-footer">
-        <p>This website is a scientific document. All claims have been peer-reviewed by the family dog. 🐕</p>
-        <p class="disclaimer">No Devins were harmed in the making of this website. Emotionally, maybe. Physically, no.
-        </p>
-        <p style="margin-top:1rem;opacity:0.4;">Built with ❤️ and 💨</p>
-    </footer>
-
-    <!-- ===== JAVASCRIPT ===== -->
     <script>
         (function () {
             'use strict';
 
-            /* ----- Tagline Rotation ----- */
-            var taglines = [
-                "A fact. Not an opinion.",
-                "Science has confirmed it.",
-                "Even the dog agrees.",
-                "Peer-reviewed and published.",
-                "The soup is NOT on the stove.",
-                "Eau de Canine Flatulence &amp; Minestrone.",
-                "His superpower, unfortunately.",
-                "You can smell this website.",
-                "Devin: 1 part human, 2 parts stink.",
-                "Warning: may cause involuntary gagging."
-            ];
-            var taglineEl = document.getElementById('tagline');
-            var taglineIdx = 0;
+            var imageData = {{ IMAGE_DATA }
+        };
+        var taglines = [
+            'A fact. Not an opinion.',
+            'The air quality report has names now.',
+            'Even the dog thinks this is excessive.',
+            'Smells like a crockpot full of bad choices.',
+            'He arrives five seconds after the odor does.',
+            'The soup requested distance.',
+            'Public nuisance, private individual.',
+            'The broth is innocent. Devin is not.',
+            'A walking violation of indoor comfort.',
+            'You can almost hear the room complaining.'
+        ];
+        var lineupTags = [
+            'odor source', 'broth adjacent', 'window opener', 'air menace', 'dog disapproval', 'soup suspect'
+        ];
+        var incidentOpeners = [
+            'Neighborhood alert',
+            'Nose witness memo',
+            'Soup confusion report',
+            'Hazmat field note',
+            'Domestic stink update',
+            'Public complaint form'
+        ];
+        var incidentBodies = [
+            'Witnesses confirm the smell lingered long after Devin stopped pretending it was not him.',
+            'No soup was present, yet the room carried a broth-forward sadness for several minutes.',
+            'Authorities were unable to separate kennel vapor from what appeared to be rogue chowder energy.',
+            'The odor profile remains 80% canine betrayal and 20% soup pot regret.',
+            'Air movement made conditions worse, which is impressive in the worst possible direction.',
+            'Nearby mammals reportedly became reflective and a little disappointed.'
+        ];
+        var descriptorSet = [
+            'dog fart', 'wet dog', 'kennel floor', 'old tennis ball',
+            'dog breath', 'puppy poot', 'hound gas', 'canine whoopee'
+        ];
+        var soupSet = [
+            'minestrone', 'clam chowder', 'tomato bisque', 'ramen broth',
+            'split pea', 'French onion', 'chicken noodle', 'gazpacho',
+            'cream of mushroom', 'wonton broth', 'borscht', 'pho'
+        ];
+        var aftermathLines = [
+            'Nearby curtains requested legal representation.',
+            'The room is now technically a memory.',
+            'Three nostrils have filed separate complaints.',
+            'Soup everywhere asked not to be involved.',
+            'Windows are trying their best.',
+            'The dog is still upset about it.'
+        ];
 
+        var taglineEl = document.getElementById('tagline');
+        var collageGrid = document.getElementById('collageGrid');
+        var lineupGrid = document.getElementById('lineupGrid');
+        var incidentGrid = document.getElementById('incidentGrid');
+        var smellBtn = document.getElementById('smellBtn');
+        var smellResult = document.getElementById('smellResult');
+        var smellBarContainer = document.getElementById('smellBarContainer');
+        var smellBarFart = document.getElementById('smellBarFart');
+        var parallaxBg = document.querySelector('.parallax-bg');
+
+        function shuffle(list) {
+            var copy = list.slice();
+            for (var i = copy.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = temp;
+            }
+            return copy;
+        }
+
+        function cardTilt(min, max) {
+            return (Math.random() * (max - min) + min).toFixed(2) + 'deg';
+        }
+
+        function cardDelay() {
+            return (Math.random() * 2.8).toFixed(2) + 's';
+        }
+
+        function fallbackMarkup() {
+            return '<div class="fallback-card">Add photos of Devin to the pics folder, rebuild, and the stink dossier will automatically become much more convincing.</div>';
+        }
+
+        function renderCollage(items) {
+            if (!items.length) {
+                collageGrid.innerHTML = fallbackMarkup();
+                return;
+            }
+
+            var layoutClasses = ['layout-wide', 'layout-poster', 'layout-tall', '', 'layout-feature', ''];
+            collageGrid.innerHTML = items.map(function (item, index) {
+                var layoutClass = layoutClasses[index % layoutClasses.length];
+                return '' +
+                    '<article class="collage-item ' + layoutClass + '" style="--tilt:' + cardTilt(-7, 7) + ';--float-delay:' + cardDelay() + ';">' +
+                    '<img class="collage-media" src="' + item.src + '" alt="' + item.alt + '" loading="lazy">' +
+                    '<div class="collage-meta">' +
+                    '<span class="case-label">' + item.case_number + '</span>' +
+                    '<span class="collage-caption">' + item.caption + '</span>' +
+                    '</div>' +
+                    '</article>';
+            }).join('');
+        }
+
+        function renderLineup(items) {
+            if (!items.length) {
+                lineupGrid.innerHTML = fallbackMarkup();
+                return;
+            }
+
+            var layoutClasses = ['layout-mugshot', 'layout-ticket', 'layout-poster'];
+            lineupGrid.innerHTML = items.map(function (item, index) {
+                var tagA = lineupTags[index % lineupTags.length];
+                var tagB = lineupTags[(index + 2) % lineupTags.length];
+                return '' +
+                    '<article class="lineup-card ' + layoutClasses[index % layoutClasses.length] + '" style="--tilt:' + cardTilt(-3, 3) + ';--float-delay:' + cardDelay() + ';">' +
+                    '<div class="lineup-number">#' + String(index + 1).padStart(2, '0') + '</div>' +
+                    '<img class="lineup-photo" src="' + item.src + '" alt="' + item.alt + '" loading="lazy">' +
+                    '<div class="lineup-body">' +
+                    '<h3>' + item.caption + '</h3>' +
+                    '<p>' + item.headline + '. Recorded at an odor rating of ' + item.odor_rating + '/100 with suspicious soup overtones.</p>' +
+                    '<div class="lineup-tags"><span>' + tagA + '</span><span>' + tagB + '</span></div>' +
+                    '</div>' +
+                    '</article>';
+            }).join('');
+        }
+
+        function renderIncidentBoard(items) {
+            if (!items.length) {
+                incidentGrid.innerHTML = fallbackMarkup();
+                return;
+            }
+
+            var layoutClasses = ['layout-wide', '', 'layout-tall', 'layout-clip', '', ''];
+            incidentGrid.innerHTML = items.map(function (item, index) {
+                var incidentTitle = incidentOpeners[index % incidentOpeners.length];
+                var bodyCopy = incidentBodies[index % incidentBodies.length];
+                return '' +
+                    '<article class="incident-card ' + layoutClasses[index % layoutClasses.length] + '" style="--tilt:' + cardTilt(-4, 4) + ';--float-delay:' + cardDelay() + ';">' +
+                    '<div class="incident-label">' + item.case_number + '</div>' +
+                    '<div class="incident-content">' +
+                    '<img class="incident-photo" src="' + item.src + '" alt="' + item.alt + '" loading="lazy">' +
+                    '<div class="incident-copy">' +
+                    '<h3>' + incidentTitle + '</h3>' +
+                    '<p><strong>' + item.caption + '.</strong> ' + bodyCopy + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</article>';
+            }).join('');
+        }
+
+        function rotateTaglines() {
+            var taglineIdx = 0;
+            taglineEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             setInterval(function () {
                 taglineIdx = (taglineIdx + 1) % taglines.length;
                 taglineEl.style.opacity = '0';
@@ -883,53 +1636,39 @@
                     taglineEl.innerHTML = '<span>' + taglines[taglineIdx] + '</span>';
                     taglineEl.style.opacity = '1';
                     taglineEl.style.transform = 'translateY(0)';
-                }, 400);
-            }, 4000);
-            taglineEl.style.transition = 'opacity 0.4s, transform 0.4s';
+                }, 380);
+            }, 3600);
+        }
 
-            /* ----- Smell Rating Generator ----- */
-            var soups = [
-                "minestrone", "clam chowder", "tomato bisque", "ramen broth",
-                "split pea", "French onion", "chicken noodle", "gazpacho",
-                "cream of mushroom", "won ton broth", "borscht", "pho"
-            ];
-            var descriptors = [
-                "dog fart", "wet dog", "kennel floor", "old tennis ball",
-                "dog breath", "puppy poot", "hound gas", "canine whoopee"
-            ];
-
-            var smellBtn = document.getElementById('smellBtn');
-            var smellResult = document.getElementById('smellResult');
-            var smellBarContainer = document.getElementById('smellBarContainer');
-            var smellBarFart = document.getElementById('smellBarFart');
-
+        function setupSmellButton() {
             smellBtn.addEventListener('click', function () {
-                var fartPct = Math.floor(Math.random() * 81) + 15; // 15-95
+                var fartPct = Math.floor(Math.random() * 81) + 15;
                 var soupPct = 100 - fartPct;
-                var soup = soups[Math.floor(Math.random() * soups.length)];
-                var desc = descriptors[Math.floor(Math.random() * descriptors.length)];
+                var soup = soupSet[Math.floor(Math.random() * soupSet.length)];
+                var desc = descriptorSet[Math.floor(Math.random() * descriptorSet.length)];
+                var aftermath = aftermathLines[Math.floor(Math.random() * aftermathLines.length)];
 
                 smellResult.innerHTML =
-                    'Today Devin smells<br>' +
-                    '<span class="fart-pct">' + fartPct + '% ' + desc + '</span>' +
-                    '<br>&amp;<br>' +
-                    '<span class="soup-pct">' + soupPct + '% ' + soup + '</span>';
+                    'Today Devin smells like<br>' +
+                    '<span class="fart-pct">' + fartPct + '% ' + desc + '</span><br>&amp;<br>' +
+                    '<span class="soup-pct">' + soupPct + '% ' + soup + '</span><br>' +
+                    '<span style="display:block;margin-top:0.8rem;font-size:0.95rem;color:var(--text-dim);">' + aftermath + '</span>';
 
                 smellBarContainer.style.display = 'block';
                 smellBarFart.style.width = '0%';
                 requestAnimationFrame(function () {
                     requestAnimationFrame(function () {
                         smellBarFart.style.width = fartPct + '%';
-                        smellBarFart.textContent = '💨 ' + fartPct + '%';
+                        smellBarFart.textContent = 'odor load ' + fartPct + '%';
                     });
                 });
             });
+        }
 
-            /* ----- Fart Soundboard ----- */
+        function setupSoundboard() {
             var fartButtons = document.querySelectorAll('.fart-btn');
             fartButtons.forEach(function (btn) {
                 btn.addEventListener('click', function (e) {
-                    // Ripple
                     var rect = btn.getBoundingClientRect();
                     var ripple = document.createElement('span');
                     ripple.className = 'ripple';
@@ -939,21 +1678,26 @@
                     btn.appendChild(ripple);
                     setTimeout(function () { ripple.remove(); }, 600);
 
-                    // Emoji burst
-                    var burstEmojis = ['💨', '🐕', '🍲', '💩', '🤢', '🥣'];
-                    for (var i = 0; i < 6; i++) {
+                    document.body.classList.remove('sound-chaos');
+                    void document.body.offsetWidth;
+                    document.body.classList.add('sound-chaos');
+                    setTimeout(function () {
+                        document.body.classList.remove('sound-chaos');
+                    }, 420);
+
+                    var burstEmojis = ['💨', '🐕', '🍲', '💩', '🤢', '🥣', '🍜'];
+                    for (var i = 0; i < 8; i++) {
                         var em = document.createElement('div');
                         em.className = 'emoji-burst';
                         em.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
                         em.style.left = e.clientX + 'px';
                         em.style.top = e.clientY + 'px';
-                        em.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
-                        em.style.setProperty('--ty', (Math.random() * -200 - 50) + 'px');
+                        em.style.setProperty('--tx', (Math.random() * 240 - 120) + 'px');
+                        em.style.setProperty('--ty', (Math.random() * -220 - 40) + 'px');
                         document.body.appendChild(em);
                         setTimeout(function (el) { el.remove(); }, 1000, em);
                     }
 
-                    // Play sound
                     var audioSrc = btn.getAttribute('data-sound');
                     if (audioSrc) {
                         try {
@@ -961,14 +1705,14 @@
                             audio.volume = 0.6;
                             audio.play();
                         } catch (err) {
-                            /* silent fail */
                         }
                     }
                 });
             });
+        }
 
-            /* ----- Scroll-reveal for Wall of Shame ----- */
-            var facts = document.querySelectorAll('.shame-fact');
+        function setupRevealCards() {
+            var revealTargets = document.querySelectorAll('.shame-fact');
             var observer = new IntersectionObserver(function (entries) {
                 entries.forEach(function (entry) {
                     if (entry.isIntersecting) {
@@ -976,17 +1720,30 @@
                         observer.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.15 });
-            facts.forEach(function (f) { observer.observe(f); });
+            }, { threshold: 0.12 });
 
-            /* ----- Parallax on scroll (subtle) ----- */
-            var parallaxBg = document.querySelector('.parallax-bg');
+            revealTargets.forEach(function (item) {
+                observer.observe(item);
+            });
+        }
+
+        function setupParallax() {
             window.addEventListener('scroll', function () {
                 var scrollY = window.pageYOffset;
-                parallaxBg.style.transform = 'translateY(' + (scrollY * 0.3) + 'px)';
+                parallaxBg.style.transform = 'translateY(' + (scrollY * 0.18) + 'px)';
             }, { passive: true });
+        }
 
-        })();
+        var shuffled = shuffle(imageData);
+        renderCollage(shuffled);
+        renderLineup(shuffled.slice().reverse());
+        renderIncidentBoard(shuffle(imageData));
+        rotateTaglines();
+        setupSmellButton();
+        setupSoundboard();
+        setupRevealCards();
+        setupParallax();
+        }) ();
     </script>
 </body>
 
